@@ -13,7 +13,7 @@ while(error > err)
 	i=1;
 	error = 0;
 	while(i<=size(patterns,1))
-		[V,D,W,W2,s,o,ret] = parity(patterns(i,:),W,W2,S(i),etta);
+		[V,D,W,W2,s,o,ret] = parity(patterns(i,:),W,W2,S(i),etta,0);
 		i=i+1;
 		error = error + (s-o)^2;
     end

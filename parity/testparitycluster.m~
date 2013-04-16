@@ -1,42 +1,42 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,W,W2,s,o,count] = testparitycluster(W,W2,etta,err)
+function testparitycluster(W,W2,etta)
 
 
 patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
 patters3 = [0 0 0 1; 0 0 1 0; 0 1 0 0 ; 0 1 1 1; 1 0 0 0; 1 0 1 1;1 1 1 0];
 patters4 = [0 0 0 0 1; 0 0 0 1 0; 0 0 1 0 0; 0 0 1 1 1;0 1 0 0 1;0 1 0 1 1; 0 1 1 1 0; 1 0 0 0 1; 1 0 0 1 1; 1 0 1 1 0; 1 1 1 1 1];
 patters5 = [0 0 0 0 0 1; 0 0 0 0 1 0; 0 0 0 1 0 0; 0 0 0 1 1 1;0 0 1 0 0 0; 0 0 1 0 1 1; 0 0 1 1 1 0;0 1 0 0 0 0; 0 1 0 0 1 1; 0 1 0 1 1 0; 0 1 1 1 1 1; 1 0 0 0 0 0; 1 0 0 0 1 1; 1 0 0 1 1 1;1 0 1 1 1 0; 1 1 1 1 1 0];
-testing = [patters2 patters3 patters4 patters5]
+field1 = 'p1'; value1 = patters2;
+field2 = 'p2'; value2 = patters3;
+field3 = 'p3'; value3 = patters4;
+field4 = 'p4'; value4 = patters5;
+testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
 
 index = size(W,2) -1 -1; %resto 1 por el umbral y otro para que de bien el 
 %index en el vector testing
 
-count = 0;
-error = inf;
-errors = 0;
-x=count;
-while(error > err)
-	i=1;
-	error = 0;
-	while(i<=size(patterns,1))
-		[V,D,W,W2,s,o,ret] = parity(patterns(i,:),W,W2,S(i),etta);
-		i=i+1;
-		error = error + (s-o)^2;
+patterns = testing.(strcat('p',num2str(index)));
+
+
+cols = size(patterns,2);
+i=1;
+while(i<=size(patterns,1)) 
+    pattern = patterns(i,1:cols-1);
+    s = patterns(i,cols:cols);
+	[V,D,W,W2,s,o,ret] = parity(pattern,W,W2,s,etta,1);
+	i=i+1;
+    if(ret == 0)
+        disp('NO PASAN TODOS LOS PATRONES!!!')
+        disp('Falla el partron:'
+        pattern
+        
     end
-	error = error / size(patterns,1); 
-    errors = [ errors error ];
-    x = [x count];
-	count = count+1;
-	i = i+1;
-	error
 end
+ disp "PASAN TODOS LOS PATRONES!!!"
 
-
-%imprimo la evolición del error
-plot(x,errors);
 
 end
 
