@@ -40,8 +40,9 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-6)
         pattern = patterns(i,1:cols-1);
         s = patterns(i,cols:cols);
 		[V,D,A,s,o] = variable(pattern,A,P,s,etta);
-		i=i+i;
+		i=i+1;
 		dif = dif + (s-o)^2;
+        
     end
 	dif = dif / 4; % four patterns;
     dif
