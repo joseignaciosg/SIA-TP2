@@ -34,10 +34,10 @@ function [lrn_rt counter] = update_lrn_rate ( lrn_rt, error, prev_error, counter
 		%check for local minimum
      end
     
-    if(lrn_type == 3 && error > 1 && lrn_rt <= 0.05)
+    if(lrn_type == 3 && error > 1 && lrn_rt <= 0.1)
 		%error is higher than 1, net lrn rate is LOW, local minimum spotted!
 		prev_error = Inf;
-		lrn_rt = 1;
+		lrn_rt = 2;
 	else
 		prev_error = error;
     end

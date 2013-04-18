@@ -37,7 +37,7 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && threshold > 0 && abs(dif-old) > 1e-6)
+while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
 	i=1;
 	old = dif;
 	dif = 0;
