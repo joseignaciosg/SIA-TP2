@@ -16,7 +16,7 @@ testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
 %inicializar vector de matrices
 m = max(P);
-A = rand(m,m+1,length(P)-1);
+A = rand(m,m+1,length(P)-1)./4;
 
 
 
