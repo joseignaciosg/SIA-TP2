@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = paritytrainer(P, etta, err)
+function [V,D,A,s,o,count,dif] = paritytrainer(P, etta, err, dinamic_learning)
 
 
 patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
@@ -32,6 +32,11 @@ threshold = 50000;
 errors = [];
 x = [];
 count = 0;
+
+cuadratic_errors = 0;
+cuadratic_error = 0;
+contar = 0;
+
 while(dif > err && threshold > 0 && abs(dif-old) > 1e-6)
 	i=1;
 	old = dif;
@@ -41,12 +46,17 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-6)
         s = patterns(i,cols:cols);
 		[V,D,A,s,o] = variable(pattern,A,P,s,etta);
 		i=i+i;
+		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
 	dif = dif / 4; % four patterns;
     dif
     errors = [dif errors];
     x = [count x];
+    cuadratic_errors = [cuadratic_errors cuadratic_error/4];
+    if( dinamic_learning == 1)
+    	[eta contar] = update_lrn_rate ( etta, cuadratic_error/4, cuadratic_errors(length(cuadratic_errors)-1), contar);
+	end
     if (mod(count,10) == 0)
             %imprimo la evolución del error
             figure(1);
