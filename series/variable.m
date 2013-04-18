@@ -10,9 +10,10 @@ m=max(P);
 V=zeros(length(P)-1, m + 1);
 V(:,1) = -1; %el primer elemento de cada fila es -1 porque corresponde al umbral
 
+E = [-1 E];
 i = 1;
 while(i <= P(2))
-	V(1,i+1) = tanh(A(i,1:P(1)+1,1) * E');
+    V(1,i+1) = tanh(A(i,1:P(1)+1,1) * E');
 	i=i+1;
 end
 
