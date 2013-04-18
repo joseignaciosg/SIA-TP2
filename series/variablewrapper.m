@@ -4,10 +4,10 @@
 
 function [V,D,A,s,o,count,dif] = variablewrapper(P,eta,err)
 
-patterns = [-1 0 0;
--1 0 1;
--1 1 0;  
--1 1 1;];
+patterns = [0 0;
+ 0 1;
+ 1 0;  
+ 1 1;];
 p=[0 1 1 0];
 count = 0;
 lower_edge = -0.5;

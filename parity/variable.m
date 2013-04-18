@@ -4,7 +4,7 @@
 %etta factor de aprendizaje
 %S salidas esperadas 
 
-function [V,D,A,s,o] = variable(E,A,P,s,eta)
+function [V,D,A,s,o,ret] = variable(E,A,P,s,eta)
 
 m=max(P);
 V=zeros(length(P)-1, m + 1);
@@ -84,8 +84,6 @@ else
                 ret = 1;
     end
 end
-
-
 
 
 end

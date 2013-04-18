@@ -2,7 +2,7 @@
 %para xor con unidad no lineal tangente hiperbÃ³lica
 %correr así ejemplo: variablewrapper([2 2 1],0.045,1e-2)
 
-function [V,D,A,s,o,count,dif] = variablewrapper(series,P,eta,err)
+function [V,D,A,s,o,count,dif] = trainervariable(series,P,eta,err)
 
 %patterns = [-1 0 0;
 %-1 0 1;
