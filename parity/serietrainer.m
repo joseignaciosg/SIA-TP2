@@ -17,7 +17,7 @@ testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 %inicializar vector de matrices
 m = max(P);
 A = rand(m,m+1,length(P)-1)./100;
-DP = zeros(m,m+1,length(P)-1); %Delta_Peso
+
 
 windowsize = P(1);
 
@@ -25,6 +25,7 @@ index = P(1) -1; %resto -1 para que de bien el
 %index en el vector testing
 
 patterns = testing.(strcat('p',num2str(index)));
+DP = zeros(m,m+1,length(P)-1); %Delta_Peso
 
 cols = size(patterns,2);
 dif = 10;
@@ -38,7 +39,7 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
+while(dif > err && threshold > 0 && abs(dif-old) > 1e-10)
 	i=1;
 	old = dif;
 	dif = 0;
@@ -46,6 +47,7 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
       %  pattern = patterns(i,1:cols-1);
       %  s = patterns(i,cols:cols);
 		[V,D,A,s,o DP] = variable(series(i:i+windowsize-1),A,P,series(i+windowsize),etta,DP,momentum_activated);
+		
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;

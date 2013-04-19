@@ -49,22 +49,23 @@ while (i < length(P))
 	i=i+1;
 end
 
-
 %actualizo los pesos de la primera matriz porque uso E en vez de V
 j = 1;
 while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
 	k = 1;
 	while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
 		if(momentum_activated == 1)
-		momentum_weight = alpha*DP(j,k,1);
-		delta_W  = eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
-		DP(j,1:P(1)+1,1) = delta_W;
-		A(j, k, 1) = A(j, k, 1) + delta_W;
+			DP
+        	momentum_weight = DP(j,k,1) * alpha;
+        	delta_W  = eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
+        	DP(j,k,1) = delta_W;
+            A(j, k, 1) = A(j, k, 1) + delta_W;
 		else
 			A(j, k, 1) = A(j, k, 1) + eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k);
 		end
 		k = k+1;
     end
+disp SALIO
 j=j+1;
 end
 
@@ -76,10 +77,10 @@ while(i < length(P)) %cantidad de matrices
 		k = 1;
 		while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
 			if(momentum_activated == 1)
-				momentum_weight = alpha*DP(j,k,1);
+				momentum_weight =  DP(j,k,i) * alpha;
 				delta_W  = eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k) + momentum_weight; %segundo termino es momentum
-				DP(j,1:P(1)+1,1) = delta_W;
-				A(j, k, 1) = A(j, k, 1) + delta_W;
+				DP(j, k,i) = delta_W;
+				A(j, k, i) = A(j, k, i) + delta_W;
 			else
 				A(j, k, i) =A(j, k, i) + eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k);
 			end
