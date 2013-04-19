@@ -3,13 +3,20 @@
 %P vector de neuronas por capa
 %etta factor de aprendizaje
 %S salidas esperadas 
+%comentario loco
 
-function [V,D,A,s,o,ret,DP] = variable(E,A,P,s,eta,DP, momentum_activated)
+
+
+function [V,D,A,difference_weight,s,o,ret] = variable(E,A,P,s,eta,difference_weight, momentum_activated)
 
 m=max(P);
 V=zeros(length(P)-1, m + 1);
 alpha = 0.1;
 V(:,1) = -1; %el primer elemento de cada fila es -1 porque corresponde al umbral
+
+
+difference_weight.*alpha;
+%tamanio_ini = size(difference_weight)
 
 E = [-1 E];
 i = 1;
@@ -55,20 +62,19 @@ while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantid
 	k = 1;
 	while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
 		if(momentum_activated == 1)
-			DP
-        	momentum_weight = DP(j,k,1) * alpha;
+			momentum_weight = difference_weight(j,k,1);
         	delta_W  = eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
-        	DP(j,k,1) = delta_W;
+        	difference_weight(j,k,1) = delta_W;
             A(j, k, 1) = A(j, k, 1) + delta_W;
 		else
 			A(j, k, 1) = A(j, k, 1) + eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k);
 		end
 		k = k+1;
     end
-%disp SALIO
 j=j+1;
 end
-
+%disp SALIO2
+%difference_weight
 %actualizo las matrices de pesos
 i = 2;
 while(i < length(P)) %cantidad de matrices
@@ -77,9 +83,12 @@ while(i < length(P)) %cantidad de matrices
 		k = 1;
 		while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
 			if(momentum_activated == 1)
-				momentum_weight =  DP(j,k,i) * alpha;
+				%	j
+				%	k
+				%difference_weight
+				momentum_weight =  difference_weight(j,k,i);
 				delta_W  = eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k) + momentum_weight; %segundo termino es momentum
-				DP(j, k,i) = delta_W;
+				difference_weight(j, k,i) = delta_W;
 				A(j, k, i) = A(j, k, i) + delta_W;
 			else
 				A(j, k, i) =A(j, k, i) + eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k);
@@ -90,6 +99,7 @@ while(i < length(P)) %cantidad de matrices
     end
 i=i+1;
 end
+
 
 ret = 0;
 if (s == 1)
@@ -103,6 +113,6 @@ else
 end
 
 
-
+%tamanio_end = size(difference_weight)
 
 end

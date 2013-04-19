@@ -1,6 +1,7 @@
 %entrena a una red iterativamente
 %para xor con unidad no lineal tangente hiperbólica
 
+
 function [V,D,W,W2,s,o,count] = paritywrapper(patterns,S,W,W2,etta,err)
 
 

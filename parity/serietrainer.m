@@ -3,20 +3,25 @@
 
 function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated)
 
+global A;
+global difference_weight;
 
-patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
-patters3 = [0 0 0 1; 0 0 1 0; 0 1 0 0 ; 0 1 1 1; 1 0 0 0; 1 0 1 1;1 1 1 0];
-patters4 = [0 0 0 0 1; 0 0 0 1 0; 0 0 1 0 0; 0 0 1 1 1;0 1 0 0 1;0 1 0 1 1; 0 1 1 1 0; 1 0 0 0 1; 1 0 0 1 1; 1 0 1 1 0; 1 1 1 1 1];
-patters5 = [0 0 0 0 0 1; 0 0 0 0 1 0; 0 0 0 1 0 0; 0 0 0 1 1 1;0 0 1 0 0 0; 0 0 1 0 1 1; 0 0 1 1 1 0;0 1 0 0 0 0; 0 1 0 0 1 1; 0 1 0 1 1 0; 0 1 1 1 1 1; 1 0 0 0 0 0; 1 0 0 0 1 1; 1 0 0 1 1 1;1 0 1 1 1 0; 1 1 1 1 1 0];
-field1 = 'p1'; value1 = patters2;
-field2 = 'p2'; value2 = patters3;
-field3 = 'p3'; value3 = patters4;
-field4 = 'p4'; value4 = patters5;
-testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
+
+%patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
+%patters3 = [0 0 0 1; 0 0 1 0; 0 1 0 0 ; 0 1 1 1; 1 0 0 0; 1 0 1 1;1 1 1 0];
+%patters4 = [0 0 0 0 1; 0 0 0 1 0; 0 0 1 0 0; 0 0 1 1 1;0 1 0 0 1;0 1 0 1 1; 0 1 1 1 0; 1 0 0 0 1; 1 0 0 1 1; 1 0 1 1 0; 1 1 1 1 1];
+%patters5 = [0 0 0 0 0 1; 0 0 0 0 1 0; 0 0 0 1 0 0; 0 0 0 1 1 1;0 0 1 0 0 0; 0 0 1 0 1 1; 0 0 1 1 1 0;0 1 0 0 0 0; 0 1 0 0 1 1; 0 1 0 1 1 0; 0 1 1 1 1 1; 1 0 0 0 0 0; 1 0 0 0 1 1; 1 0 0 1 1 1;1 0 1 1 1 0; 1 1 1 1 1 0];
+%field1 = 'p1'; value1 = patters2;
+%field2 = 'p2'; value2 = patters3;
+%field3 = 'p3'; value3 = patters4;
+%field4 = 'p4'; value4 = patters5;
+%testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
 %inicializar vector de matrices
 m = max(P);
-A = rand(m,m+1,length(P)-1)./100;
+difference_weight = rand(m,m+1,length(P)-1); %Delta_Peso
+A = rand(m,m+1,length(P)-1)./2 - 0.25;
+
 
 
 windowsize = P(1);
@@ -24,10 +29,10 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el 
 %index en el vector testing
 
-patterns = testing.(strcat('p',num2str(index)));
-DP = zeros(m,m+1,length(P)-1); %Delta_Peso
+%patterns = testing.(strcat('p',num2str(index)));
 
-cols = size(patterns,2);
+series = series(1:500);
+%cols = size(patterns,2);
 dif = 10;
 old = 11;
 threshold = 50000;
@@ -46,9 +51,12 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-10)
 	while(i<=(length(series)-windowsize))
       %  pattern = patterns(i,1:cols-1);
       %  s = patterns(i,cols:cols);
-		[V,D,A,s,o DP] = variable(series(i:i+windowsize-1),A,P,series(i+windowsize),etta,DP,momentum_activated);
-		
+    %  i
+	%	tamanio_entra = size(difference_weight)
+		[V,D,A,difference_weight,s,o,ret] = variable(series(i:i+windowsize-1),A,P,series(i+windowsize),etta,difference_weight,momentum_activated);	
+	%	tamanio_sale = size(difference_weight)
 		i=i+1;
+	%	i
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
