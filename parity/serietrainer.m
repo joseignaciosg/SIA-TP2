@@ -24,7 +24,7 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el 
 %index en el vector testing
 
-patterns = testing.(strcat('p',num2str(index)));
+%patterns = testing.(strcat('p',num2str(index)));
 DP = zeros(m,m+1,length(P)-1); %Delta_Peso
 
 cols = size(patterns,2);

@@ -65,7 +65,7 @@ while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantid
 		end
 		k = k+1;
     end
-disp SALIO
+%disp SALIO
 j=j+1;
 end
 
