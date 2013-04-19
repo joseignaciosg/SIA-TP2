@@ -48,6 +48,7 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
+        
     end
 	dif = dif / 4; % four patterns;
     dif
