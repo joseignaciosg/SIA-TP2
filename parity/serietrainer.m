@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = paritytrainer(P, etta, err, dinamic_learning)
+function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated)
 
 
 patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
@@ -16,9 +16,10 @@ testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
 %inicializar vector de matrices
 m = max(P);
-A = rand(m,m+1,length(P)-1)./4;
+A = rand(m,m+1,length(P)-1)./100;
+DP = zeros(m,m+1,length(P)-1); %Delta_Peso
 
-
+windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el 
 %index en el vector testing
@@ -41,10 +42,10 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
 	i=1;
 	old = dif;
 	dif = 0;
-	while(i<=size(patterns,1))
-        pattern = patterns(i,1:cols-1);
-        s = patterns(i,cols:cols);
-		[V,D,A,s,o] = variable(pattern,A,P,s,etta);
+	while(i<=(length(series)-windowsize))
+      %  pattern = patterns(i,1:cols-1);
+      %  s = patterns(i,cols:cols);
+		[V,D,A,s,o DP] = variable(series(i:i+windowsize-1),A,P,series(i+windowsize),etta,DP,momentum_activated);
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;

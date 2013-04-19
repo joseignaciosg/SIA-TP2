@@ -4,10 +4,11 @@
 %etta factor de aprendizaje
 %S salidas esperadas 
 
-function [V,D,A,s,o,ret] = variable(E,A,P,s,eta)
+function [V,D,A,s,o,ret,DP] = variable(E,A,P,s,eta,DP, momentum_activated)
 
 m=max(P);
 V=zeros(length(P)-1, m + 1);
+alpha = 0.1;
 V(:,1) = -1; %el primer elemento de cada fila es -1 porque corresponde al umbral
 
 E = [-1 E];
@@ -48,13 +49,21 @@ while (i < length(P))
 	i=i+1;
 end
 
+
 %actualizo los pesos de la primera matriz porque uso E en vez de V
 j = 1;
 while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
 	k = 1;
 	while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
-		A(j, k, 1) = A(j, k, 1) + eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k);
-		k=k+1;
+		if(momentum_activated == 1)
+		momentum_weight = alpha*DP(j,k,1);
+		delta_W  = eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
+		DP(j,1:P(1)+1,1) = delta_W;
+		A(j, k, 1) = A(j, k, 1) + delta_W;
+		else
+			A(j, k, 1) = A(j, k, 1) + eta * (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k);
+		end
+		k = k+1;
     end
 j=j+1;
 end
@@ -66,7 +75,14 @@ while(i < length(P)) %cantidad de matrices
 	while(j <= P(i + 1)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
 		k = 1;
 		while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
-			A(j, k, i) =A(j, k, i) + eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k);
+			if(momentum_activated == 1)
+				momentum_weight = alpha*DP(j,k,1);
+				delta_W  = eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k) + momentum_weight; %segundo termino es momentum
+				DP(j,1:P(1)+1,1) = delta_W;
+				A(j, k, 1) = A(j, k, 1) + delta_W;
+			else
+				A(j, k, i) =A(j, k, i) + eta * (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k);
+			end
 			k=k+1;
         end
 	j=j+1;
