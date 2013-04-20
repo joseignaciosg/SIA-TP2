@@ -6,7 +6,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     V = zeros(m, max_neurons + 1); %+1 for the threshold
 
     alpha = 0.01;
-    beta = 0.5;
+    beta = 1;
     
     %the first row of V are the inputs
     aux = zeros(1,length(V(1,:))-length(E)-1);
@@ -22,7 +22,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     i = 1;
     while(i<m)
        membrane_potential = A(:,:,i)*V(i,:)';
-       V(i+1,:) =  [-1 tanh(membrane_potential'.* beta)];
+       V(i+1,:) =  [-1 (1/(1+exp(membrane_potential')))];
        i=i+1;
     end
        
@@ -32,12 +32,16 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     
     %computes deltas
     D = zeros(m-1,max_neurons);
+    %D(1,1) = (1-(tanh(membrane_potential(1)))^2) * (s-o);
     D(1,1) = (s-o);
     
     i=2;
     while(i<m)
        aux = m-i+1;
+       %membrane_potential = A(:,:,m-i)*V(m-i,:)';
        auxi = A(:,2:max_neurons+1,aux)'* D(i-1,:)';
+       %one = ones(1,length(membrane_potential));
+       %D(i,:) = (one-(tanh(membrane_potential')).^2) .* auxi';
        D(i,:) = auxi';
        i=i+1;
     end
@@ -47,7 +51,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     j = 1;
     while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
         k = 1;
-        x = (1-(tanh( A(j,1:P(1)+1,1) * E(1:P(1)+1)'.*beta ))^2).*beta;
+        x = (1-(tanh( A(j,1:P(1)+1,1) * E(1:P(1)+1)' ))^2);
         while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
             %derivada = beta * (1-(tanh(beta *  A(j,1:P(1)+1,1) * E' ))^2)
             if(momentum_activated == 1)
@@ -69,7 +73,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
         j = 1;
         while(j <= P(i + 1)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
             k = 1;
-            x = (1-(tanh( A(j,1:P(i)+1,i) * V(i,1:P(i)+1)'.*beta ))^2).*beta;
+            x = (1-(tanh( A(j,1:P(i)+1,i) * V(i,1:P(i)+1)' ))^2);
             while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
                 if(momentum_activated == 1)
                     momentum_weight =  difference_weight(j,k,i)*alpha;
