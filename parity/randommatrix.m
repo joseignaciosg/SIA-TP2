@@ -1,7 +1,7 @@
 %creates a weigth matrix of the correct dimensions
 
 %P is the vector with the layers of the net
-function [W] = randommatrix(P,divisor)
+function [W] = randommatrix(P,divisor,delta)
 
     max_neurons = max(P);
     m = length(P);
@@ -13,7 +13,7 @@ function [W] = randommatrix(P,divisor)
         while(i<=P(k+1))
            j=1;
            while(j<=P(k)+1)
-               W(i,j,k) = rand()/divisor;
+               W(i,j,k) = rand()/divisor - delta;
                j=j+1;
            end
            i=i+1;
