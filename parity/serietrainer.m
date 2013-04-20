@@ -10,7 +10,8 @@ global difference_weight;
 m = max(P);
 
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
-A = rand(m,m+1,length(P)-1)./2 - 0.25;
+A = randommatrix(P,2,0.25);
+
 
 windowsize = P(1);
 
@@ -34,23 +35,17 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-<<<<<<< HEAD
-%while(dif > err && threshold > 0 && abs(dif-old) > 1e-10)
-while(dif > err )
-=======
+
 while(dif > err && count < 50000 && abs(dif-old) > 1e-6)
->>>>>>> 69400ed050ff3d42d6c7b34c55e145c73cfec75e
 	i=1;
 	old = dif;
 	dif = 0;
 	while(i<=(length(series)-windowsize))
-
 		[V,D,A,difference_weight,s,o,ret] = variable(series(i:i+windowsize-1),A,P,series(i+windowsize), etta, difference_weight, momentum_activated);	
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
-
 		dif = dif + (tanh(s)-o)^2;
-    	end
+    end
     dif = dif / (i-1); % # patterns;
     dif
     os = [os o];
@@ -61,8 +56,7 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-6)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error/4];
     if( dinamic_learning == 1)
-
-	[eta contar] = update_lrn_rate ( etta, cuadratic_error/4, cuadratic_errors(length(cuadratic_errors)-1), contar);
+        [eta contar] = update_lrn_rate ( etta, cuadratic_error/4, cuadratic_errors(length(cuadratic_errors)-1), contar);
     end
     if (mod(count,10) == 0)
             %imprimo la evolución del error
