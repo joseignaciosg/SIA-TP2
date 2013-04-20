@@ -3,7 +3,6 @@
 
 function [count] = testtrainer(series,A,P,error)
 
-
 %maximo valor de P para formar la matriz
 m = max(P);
 
@@ -12,6 +11,8 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
+
+series1 = series;
 series = series./3.8;
 
 %Variables
@@ -35,7 +36,7 @@ while(count < 1)
 		os = [os final_s];
     	ss = [ss final_o];
     	x = [i x];
-        diff = abs(s-o);
+        diff = abs(final_s-final_o);
         %diff
         if(max_diff<diff)
             max_diff = diff;
@@ -47,12 +48,22 @@ while(count < 1)
             acceptable_values = acceptable_values +1;
         end
         
+        
     end
 	count = count+1;
 end
 
+
+
+
+length(ss)
+length(series1)-windowsize
+length(series1(1,5:length(series1)))
+length(x)
+
 figure(1);
-plot(x,ss,x,os);
+%plot(x,os,x,series1(:,5:length(series1)));
+plot(x,os,s,ss);
 min_diff
 max_diff
 acceptable_values
