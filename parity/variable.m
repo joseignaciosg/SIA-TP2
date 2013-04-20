@@ -12,10 +12,10 @@ function [V,D,A,difference_weight,s,o,ret] = variable(E,A,P,s,eta,difference_wei
 m=max(P);
 V=zeros(length(P)-1, m + 1);
 %Alpha para el momentum
-alpha = 0.01;
+alpha = 0.05;
 V(:,1) = -1; %el primer elemento de cada fila es -1 porque corresponde al umbral
 %Beta que hace mas smooth la tangente para que no converga tan rapido a un minimo local
-beta = 0.75;
+beta = 1;
 
 
 E = [-1 E];
@@ -62,15 +62,14 @@ while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantid
 	k = 1;
 	x = (1-(tanh( A(j,1:P(1)+1,1) * E' ))^2);
 	while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
-		%derivada = (1-(tanh(beta *  A(j,1:P(1)+1,1) * E' ))^2)
+		%derivada = beta * (1-(tanh(beta *  A(j,1:P(1)+1,1) * E' ))^2)
 		if(momentum_activated == 1)
-			momentum_weight = difference_weight(j,k,1);
-			%segundo termino es momentum
-			delta_W = eta * x * D(length(P)-1,j) * E(k) + 0.9 * momentum_weight;
-        		difference_weight(j,k,1) = delta_W;
-			A(j, k, 1) = A(j, k, 1) + delta_W;
+			momentum_weight = difference_weight(j,k,1)*alpha;
+        	delta_W  = eta * beta * (1-(tanh(beta *  A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
+        	difference_weight(j,k,1) = delta_W;
+            A(j, k, 1) = A(j, k, 1) + delta_W;
 		else
-			A(j, k, 1) = A(j, k, 1) + eta * x * D(length(P)-1,j) * E(k);
+			A(j, k, 1) = A(j, k, 1) + eta * beta * (1-(tanh(beta *  A(j,1:P(1)+1,1) * E' ))^2) * D(length(P)-1,j) * E(k);
 		end
 		k = k+1;
     end
@@ -86,14 +85,12 @@ while(i < length(P)) %cantidad de matrices
 		x = (1-(tanh( A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2);
 		while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
 			if(momentum_activated == 1)
-				%difference_weight
-				momentum_weight =  difference_weight(j,k,i);
-				%segundo termino es momentum
-				delta_W = eta * x * D(length(P)-i,j) * V(i-1,k) + 0.9 * momentum_weight;
+				momentum_weight =  difference_weight(j,k,i)*alpha;
+				delta_W  = eta * beta * (1-(tanh(beta *  A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k) + momentum_weight; %segundo termino es momentum
 				difference_weight(j, k,i) = delta_W;
 				A(j, k, i) = A(j, k, i) + delta_W;
 			else
-				A(j, k, i) = A(j, k, i) + eta * x * D(length(P)-i,j) * V(i-1,k);
+				A(j, k, i) =A(j, k, i) + eta * beta * (1-(tanh(beta * A(j,1:P(i)+1,i) * V(i-1,1:P(i)+1)' ))^2) * D(length(P)-i,j) * V(i-1,k);
 			end
 			k=k+1;
         	end
@@ -114,6 +111,5 @@ else
 	end
 end
 s=tanh(s);
-
 
 end
