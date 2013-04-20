@@ -40,12 +40,13 @@ function [V,D,A,difference_weight,s,o,ret] = variable2(E,A,P,s,eta,difference_we
     while(i<m)
        aux = m-i+1;
        membrane_potential = A(:,:,m-2)*V(aux,:)';
-       auxi = A(:,2:max_neurons+1,aux)'* V(aux,2:max_neurons+1)';
+       auxi = A(:,2:max_neurons+1,aux)'* D(i-1,:)';
        one = ones(1,length(membrane_potential));
-       D(i,:) = (one-(tanh(membrane_potential')).^2) * auxi;
+       D(i,:) = (one-(tanh(membrane_potential')).^2) .* auxi';
        i=i+1;
     end
     
+    D
     
     j = 1;
     while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.

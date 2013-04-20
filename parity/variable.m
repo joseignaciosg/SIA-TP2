@@ -48,7 +48,7 @@ while (i < length(P))
 	while( k <= P(length(P) - i + 1) )
 		j = 1;% valores en V; ds en la capa anterior
 		while (j <= P(length(P) - i + 2) )
-			D(i,k) = D(i,k)+ D(i-1,j) * A(P(length(P) - i + 2),k+1,i);
+			D(i,k) = D(i-1,j) * A(P(length(P) - i + 2),k+1,i);
 			j=j+1;
         end
 		k=k+1;
