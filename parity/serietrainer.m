@@ -47,7 +47,7 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
 
 	while(i<=(length(series)-windowsize))
 		s = series(i+windowsize);
-		[V,D,A,difference_weight,s,o,ret] = variable(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
+		[V,D,A,difference_weight,s,o,ret] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
 		i=i+1;
 		%s
 		%o

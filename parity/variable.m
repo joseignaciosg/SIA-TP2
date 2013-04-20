@@ -107,7 +107,7 @@ if (s == 1)
 	end
 else
 	if ( o < 0.5)
-                ret = 1;
+         ret = 0;
 	end
 end
 

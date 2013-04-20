@@ -26,7 +26,7 @@ function [V,D,A,s,o,ret] = variable2(E,P,A,s,etta)
        i=i+1;
     end
        
-    %output
+    %final output
     o = V(m,2);
     
     
@@ -44,12 +44,6 @@ function [V,D,A,s,o,ret] = variable2(E,P,A,s,etta)
        i=i+1;
     end
     
-    
-    %TODO : computes new weights
-    %i=1;
-    %while(i<m)
-    %    A(:,:,m-i-1)' = A(:,:,m-i-1)'
-    %end
     
     %actualizo los pesos de la primera matriz porque uso E en vez de V
     j = 1;
