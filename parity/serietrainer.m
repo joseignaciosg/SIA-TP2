@@ -3,20 +3,6 @@
 
 function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated)
 
-%global A;
-%global difference_weight;
-%global contar;
-
-
-patters2 = [0 0 1; 0 1 0; 1 0 0; 1 1 1];
-patters3 = [0 0 0 1; 0 0 1 0; 0 1 0 0 ; 0 1 1 1; 1 0 0 0; 1 0 1 1;1 1 1 0];
-patters4 = [0 0 0 0 1; 0 0 0 1 0; 0 0 1 0 0; 0 0 1 1 1;0 1 0 0 1;0 1 0 1 1; 0 1 1 1 0; 1 0 0 0 1; 1 0 0 1 1; 1 0 1 1 0; 1 1 1 1 1];
-patters5 = [0 0 0 0 0 1; 0 0 0 0 1 0; 0 0 0 1 0 0; 0 0 0 1 1 1;0 0 1 0 0 0; 0 0 1 0 1 1; 0 0 1 1 1 0;0 1 0 0 0 0; 0 1 0 0 1 1; 0 1 0 1 1 0; 0 1 1 1 1 1; 1 0 0 0 0 0; 1 0 0 0 1 1; 1 0 0 1 1 1;1 0 1 1 1 0; 1 1 1 1 1 0];
-field1 = 'p1'; value1 = patters2;
-field2 = 'p2'; value2 = patters3;
-field3 = 'p3'; value3 = patters4;
-field4 = 'p4'; value4 = patters5;
-testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
 %maximo valor de P para formar la matriz
 m = max(P);
@@ -67,7 +53,6 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
 		o
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
-		
     end
     dif = dif / (i-1); % # patterns;
     dif
