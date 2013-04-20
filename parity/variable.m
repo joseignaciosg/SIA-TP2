@@ -110,6 +110,5 @@ else
                 ret = 1;
 	end
 end
-s=tanh(s);
 
 end

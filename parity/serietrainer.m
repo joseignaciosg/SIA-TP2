@@ -28,16 +28,16 @@ m = max(P);
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 A = randommatrix(P,2,0.25);
 
-
+A
 
 windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
-series = series(1:750);
+series = series(1:20)./3.8;
 
-
+series
 dif = 10;
 old = 11;
 errors = [];
@@ -52,17 +52,22 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && count < 50000 && abs(dif-old) > 1e-6)
+while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
 
 	i=1;
 	old = dif;
+	cuadratic_error = 0;
 	dif = 0;
 
 	while(i<=(length(series)-windowsize))
-		[V,D,A,difference_weight,s,o,ret] = variable2(series(i:i+windowsize-1),A,P,series(i+windowsize), etta, difference_weight, momentum_activated);	
+		s = series(i+windowsize);
+		[V,D,A,difference_weight,s,o,ret] = variable(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
 		i=i+1;
+		s
+		o
 		cuadratic_error = cuadratic_error + (s-o)^2;
-		dif = dif + (tanh(s)-o)^2;
+		dif = dif + (s-o)^2;
+		
     end
     dif = dif / (i-1); % # patterns;
     dif
@@ -72,9 +77,9 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-6)
 
     errors = [dif errors];
     x = [count x];
-    cuadratic_errors = [cuadratic_errors cuadratic_error/4];
+    cuadratic_errors = [cuadratic_errors cuadratic_error/(i-1)];
     if( dinamic_learning == 1)
-    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error/4, cuadratic_errors(length(cuadratic_errors)-1), contar);
+    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error/(i-1), cuadratic_errors(length(cuadratic_errors)-1), contar);
 %		contar;
 %		etta;
 	end
