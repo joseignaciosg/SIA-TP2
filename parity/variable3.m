@@ -6,7 +6,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     V = zeros(m, max_neurons + 1); %+1 for the threshold
 
     alpha = 0.9;
-    beta = 0.5;
+    beta = 0.3;
     
     %the first row of V are the inputs
     aux = zeros(1,length(V(1,:))-length(E)-1);
