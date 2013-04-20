@@ -14,9 +14,17 @@ field3 = 'p3'; value3 = patters4;
 field4 = 'p4'; value4 = patters5;
 testing = struct(field1, value1,field2, value2,field3, value3,field4, value4);
 
+%----------------BORRAR---------------------------------------
+P = [2 2 1];
+A(:,:,1) =  [0.12 0.23 0.32; 0.1 -0.12 0.2];
+A(:,:,2) =  [0.12 0.12 0.1; 0 0 0];
+stop = 0;
+%----------------BORRAR---------------------------------------
+
 %inicializar vector de matrices
 m = max(P);
-A = rand(m,m+1,length(P)-1)./4;
+%A = rand(m,m+1,length(P)-1)./4;
+
 
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 
@@ -25,6 +33,7 @@ index = P(1) -1; %resto -1 para que de bien el
 
 patterns = testing.(strcat('p',num2str(index)));
 
+num2str(index)
 cols = size(patterns,2);
 dif = 10;
 old = 11;
@@ -37,18 +46,22 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
+while(dif > err && threshold > 0 && abs(dif-old) > 1e-8 )
 	i=1;
 	old = dif;
 	dif = 0;
 	while(i<=size(patterns,1))
         pattern = patterns(i,1:cols-1);
         s = patterns(i,cols:cols);
-		[V,D,A,difference_weight,s,o,ret] = variable2(pattern,A,P,s,etta, difference_weight, momentum_activated);
+		[V,D,A,difference_weight,s,o,ret] = variable3(pattern,A,P,s,etta, difference_weight, momentum_activated);
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
-        
+        V
+        D
+        A
+       
+        return;
     end
 	dif = dif / size(patterns,1);
     dif
@@ -76,6 +89,6 @@ end
 
 
 plot(x,errors);
-A
+%A
 end
 
