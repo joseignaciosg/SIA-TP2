@@ -21,7 +21,7 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
-series = series(1:50)./3.8;
+series = series(1:750)./3.8;
 
 series
 dif = 10;
@@ -38,7 +38,7 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
+while(dif > err && count < 200 && abs(dif-old) > 1e-10)
 
 	i=1;
 	old = dif;
@@ -49,8 +49,8 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
 		s = series(i+windowsize);
 		[V,D,A,difference_weight,s,o,ret] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
 		i=i+1;
-		%s
-		%o
+		final_s = s * 3.8;
+		final_o = o * 3.8;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
