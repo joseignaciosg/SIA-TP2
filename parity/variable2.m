@@ -99,7 +99,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable2(E,A,P,s,eta,difference_we
         end
     else
         if ( o < 0.5)
-                    ret = 1;
+            ret = 0;
         end
     end
   
