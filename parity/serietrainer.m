@@ -21,7 +21,7 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
-series = series(1:20)./3.8;
+series = series(1:50)./3.8;
 
 series
 dif = 10;
@@ -49,22 +49,23 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-10)
 		s = series(i+windowsize);
 		[V,D,A,difference_weight,s,o,ret] = variable(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
 		i=i+1;
-		s
-		o
+		%s
+		%o
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
     dif = dif / (i-1); % # patterns;
     dif
-    os = [os o];
-    ss = [ss s];
-    ettas = [ettas etta];
+    cuadratic_error = cuadratic_error/(i-1); % #patterns
+    %os = [os o];
+    %ss = [ss s];
+    %ettas = [ettas etta];
 
     errors = [dif errors];
     x = [count x];
-    cuadratic_errors = [cuadratic_errors cuadratic_error/(i-1)];
+    cuadratic_errors = [cuadratic_errors cuadratic_error];
     if( dinamic_learning == 1)
-    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error/(i-1), cuadratic_errors(length(cuadratic_errors)-1), contar);
+    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar);
 %		contar;
 %		etta;
 	end
