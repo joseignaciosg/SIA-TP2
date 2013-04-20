@@ -36,11 +36,6 @@ while(count < 1)
 	count = count+1;
 end
 
-length(ss)
-length(series1)-windowsize
-length(series1(1,5:length(series1)))
-length(x)
-
 figure(1);
 plot(x,os,x,series1(:,5:length(series1)));
 
