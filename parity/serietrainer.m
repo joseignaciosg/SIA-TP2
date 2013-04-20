@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated)
+function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated, epochs)
 
 
 %maximo valor de P para formar la matriz
@@ -14,16 +14,13 @@ m = max(P);
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 A = randommatrix(P,2,0.25);
 
-A
-
 windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
-series = series(1:500)./3.8;
+series = series(1:750)./3.8;
 
-series
 dif = 10;
 old = 11;
 errors = [];
@@ -38,7 +35,7 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && count < 200 && abs(dif-old) > 1e-10)
+while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
 	i=1;
 	old = dif;
