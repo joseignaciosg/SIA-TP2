@@ -103,7 +103,6 @@ function [V,D,A,difference_weight,s,o,ret] = variable2(E,A,P,s,eta,difference_we
                     ret = 1;
         end
     end
-    s=tanh(s);
-
+  
 
 end
