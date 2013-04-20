@@ -56,7 +56,7 @@ while(dif > err && threshold > 0 && abs(dif-old) > 1e-8)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error/4];
     if( dinamic_learning == 1)
-    	[eta contar] = update_lrn_rate ( etta, cuadratic_error/4, cuadratic_errors(length(cuadratic_errors)-1), contar);
+    	[etta contar] = update_lrn_rate ( etta, diff, errors, contar);
 	end
     if (mod(count,10) == 0)
             %imprimo la evolución del error

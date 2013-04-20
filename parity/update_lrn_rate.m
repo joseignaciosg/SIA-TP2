@@ -1,4 +1,4 @@
-function [lrn_rt counter] = update_lrn_rate ( lrn_rt, error, prev_error, counter)
+function [lrn_rt, contador] = update_lrn_rate ( lrn_rt, error, prev_error, contador)
 	%Updates the learn rate according to learn strategy
 	%1 = CONSTANT, does nothing.
 	%2 = ANNEALED, exponential decay over time
@@ -8,38 +8,39 @@ function [lrn_rt counter] = update_lrn_rate ( lrn_rt, error, prev_error, counter
     lrn_decay = 0.75;
     lrn_sum = 0.005;
     lrn_type = 3;
-	if(lrn_type == 2)
-		counter = counter + 1;
-		if( counter == 50)
-			counter =0;
+    lrn_consist = 3;
+	if(lrn_type ==2)
+		contador = contador + 1;
+		if(contador == 50)
+			contador =0;
 			lrn_rt = lrn_decay * lrn_rt;
-        end
-    end
+		end
+	end
 	if(lrn_type == 3)
 		if(error > prev_error)
-			counter = 0;
+			contador = 0;
 			lrn_rt = lrn_decay * lrn_rt;
 			if( lrn_rt < 0.01)
 				lrn_rt = 0.01;
-            end
-		elseif( error <= prev_error)
-			counter =counter + 1;
-			if(counter > 3)
+			end
+		elseif( error < prev_error)
+			contador = contador + 1;
+			if(contador >= lrn_consist)
 				lrn_rt = lrn_rt + lrn_sum;
-				if(lrn_rt > 0.75)
-					lrn_rt = 0.75;
-                end
-            end
-        end
+				if(lrn_rt > 0.5)
+					lrn_rt = 0.5;
+				end
+			end
+		end
 		%check for local minimum
-     end
-    
-    if(lrn_type == 3 && error > 1 && lrn_rt <= 0.03)
-		%error is higher than 1, net lrn rate is LOW, local minimum spotted!
+	end
+	if(lrn_type == 3 && error > 1 && lrn_rt < 0.02)
+		
+		%error is higher than 1, lrn rate is LOW, local minimum spotted!
 		prev_error = Inf;
-		lrn_rt = 30;
+		lrn_rt = 1;
 	else
 		prev_error = error;
-    end
+	end
 	
 end
