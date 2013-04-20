@@ -35,8 +35,8 @@ cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
 
-while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
+while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 	i=1;
 	old = dif;
 	cuadratic_error = 0;
