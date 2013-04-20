@@ -33,8 +33,8 @@ while(count < 1)
 		i=i+1;
 		final_s = s * 3.8;
 		final_o = o * 3.8;
-		os = [os final_s];
-    	ss = [ss final_o];
+		os = [os final_o];
+    	ss = [ss final_s];
     	x = [i x];
         diff = abs(final_s-final_o);
         %diff
@@ -55,8 +55,8 @@ end
 
 
 figure(1);
-%plot(x,os,x,series1(:,5:length(series1)));
-plot(x,os,s,ss);
+plot(x,series1(:,5:length(series1)),x,os);
+%plot(x,os,s,ss);
 min_diff
 max_diff
 acceptable_values
