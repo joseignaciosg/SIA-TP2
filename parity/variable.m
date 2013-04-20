@@ -41,7 +41,7 @@ o = V(length(P)-1,2);
 
 %se calculan los deltas
 D = zeros(length(P)-1, m);
-D(1,1) = (tanh(s)-o); %delta inicial
+D(1,1) = (s-o); %delta inicial
 i=2;%filas de D
 while (i < length(P))
 	k = 1;% ds en mi capa. columnas de la matriz D
