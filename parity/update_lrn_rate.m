@@ -20,21 +20,21 @@ function [lrn_rt, contador] = update_lrn_rate ( lrn_rt, error, prev_error, conta
 		if(error > prev_error)
 			contador = 0;
 			lrn_rt = lrn_decay * lrn_rt;
-			if( lrn_rt < 0.01)
-				lrn_rt = 0.01;
+			if( lrn_rt < 0.02)
+				lrn_rt = 0.02;
 			end
 		elseif( error < prev_error)
 			contador = contador + 1;
 			if(contador >= lrn_consist)
 				lrn_rt = lrn_rt + lrn_sum;
-				if(lrn_rt > 0.5)
-					lrn_rt = 0.5;
+				if(lrn_rt > 0.6)
+					lrn_rt = 0.6;
 				end
 			end
 		end
-		%check for local minimum
+
 	end
-	if(lrn_type == 3 && error > 1 && lrn_rt < 0.02)
+	if(lrn_type == 3 && error > 1 && lrn_rt < 0.05)
 		
 		%error is higher than 1, lrn rate is LOW, local minimum spotted!
 		prev_error = Inf;

@@ -55,8 +55,8 @@ end
 
 
 figure(1);
-plot(x,series1(:,5:length(series1)),x,os);
-%plot(x,os,s,ss);
+%plot(x,series1(:,5:length(series1)),x,os);
+plot(x,os,s,ss);
 min_diff
 max_diff
 acceptable_values
