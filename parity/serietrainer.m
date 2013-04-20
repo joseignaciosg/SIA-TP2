@@ -44,7 +44,7 @@ while(dif > err && count < 50000 && abs(dif-old) > 1e-6)
 		[V,D,A,difference_weight,s,o,ret] = variable2(series(i:i+windowsize-1),A,P,series(i+windowsize), etta, difference_weight, momentum_activated);	
 		i=i+1;
 		cuadratic_error = cuadratic_error + (s-o)^2;
-		dif = dif + (tanh(s)-o)^2;
+		dif = dif + (s-o)^2;
     end
     dif = dif / (i-1); % # patterns;
     dif
