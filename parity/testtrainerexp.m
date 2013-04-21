@@ -20,11 +20,13 @@ x = [];
 os=[];
 ss=[];
 diffs = [];
+diffs2 = [];
 count = 0;
 
 max_diff = 0;
 min_diff = inf;
 diff = 0;
+diff2 = 0;
 
 acceptable_values=0;
 while(count < 1)
@@ -39,7 +41,9 @@ while(count < 1)
     	ss = [ss final_s];
     	x = [i x];
         diff = abs(final_s-final_o);
+        diff2 = final_s-final_o;
         diffs = [diffs diff];
+        diffs2 = [diffs2 diff2];
         %diff
         if(max_diff<diff)
             max_diff = diff;
@@ -83,6 +87,12 @@ plot(x,diffs,'r');
 title('errores en valor absoluto')
 xlabel('muestras')
 ylabel('error')
+
+subplot(2,2,4)
+hist(diffs2,10);
+title('hostograma de errores')
+xlabel('error')
+ylabel('ocurrencias')
 
 min_diff
 max_diff
