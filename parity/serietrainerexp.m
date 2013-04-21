@@ -15,6 +15,7 @@ global reset
 reset = 0;
 
 
+
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 A = randommatrix(P,2,0.25);
 
