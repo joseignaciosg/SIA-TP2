@@ -55,9 +55,9 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3(E,A,P,s,eta,differe
                 if( reset == 1)
                      %vuelvo al paso anterior
                      A(j, k, 1) = A(j, k, 1) - difference_weight(j,k,1);
-                else
+                else                
                     momentum_weight = difference_weight(j,k,1)*alpha;
-                    delta_W  = - eta * x * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
+                    delta_W  = eta * x * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
                     difference_weight(j,k,1) = delta_W;
                     A(j, k, 1) = A(j, k, 1) + delta_W;
                 end
@@ -84,7 +84,7 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3(E,A,P,s,eta,differe
                         A(j, k, i) = A(j, k, i) - difference_weight(j, k,i);
                     else
                         momentum_weight =  difference_weight(j,k,i)*alpha;
-                        delta_W  =  - eta * x * D(length(P)-i,j) * V(i,k) + momentum_weight; %segundo termino es momentum
+                        delta_W  =  eta * x * D(length(P)-i,j) * V(i,k) + momentum_weight; %segundo termino es momentum
                         difference_weight(j, k,i) = delta_W;
                         A(j, k, i) = A(j, k, i) + delta_W;
                     end
@@ -102,7 +102,7 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3(E,A,P,s,eta,differe
        reset = 0;  
     end
     
-    reset
+
     
     ret = 0;
     if (s == 1)

@@ -55,7 +55,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
-    dif = dif / (i-1); % # patterns;
+    dif = dif / (i-1); % #patterns;
     dif
     cuadratic_error = cuadratic_error/(i-1); % #patterns
     %os = [os o];
@@ -69,7 +69,11 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     	[etta, contar,alpha] = update_lrn_rate( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar,alpha);
 %		contar;
 %		etta;
-	end
+        etta
+        alpha
+    end
+    
+    
 
     if (mod(count,10) == 0)
             %imprimo la evolución del error
