@@ -10,6 +10,9 @@ m = max(P);
 %difference_weight = rand(m,m+1,length(P)-1); 
 %A = rand(m,m+1,length(P)-1)./2 - 0.25;
 
+%para resear a un paso anterior la matriz de pesos
+global reset
+reset = 0;
 
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 A = randommatrix(P,2,0.25);
@@ -34,6 +37,7 @@ count = 0;
 cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
+alpha = 0.9;
 
 
 while(dif > err && count < epochs && abs(dif-old) > 1e-10)
@@ -44,7 +48,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
 	while(i<=(length(series)-windowsize))
 		s = series(i+windowsize);
-		[V,D,A,difference_weight,s,o,ret] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
+		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated,alpha);	
 		i=i+1;
 		final_s = s * 3.8;
 		final_o = o * 3.8;
@@ -62,7 +66,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error];
     if( dinamic_learning == 1)
-    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar);
+    	[etta, contar,alpha] = update_lrn_rate( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar,alpha);
 %		contar;
 %		etta;
 	end
@@ -73,9 +77,9 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     	      plot(x,errors);
     	      %figure(2)
     	      %plot(x, ettas);
-    	     % figure(3)
+    	      % figure(3)
     	      %plot(x,ss,x,os);
-    	     % plot(x,cuadratic_errors(1,1:length(cuadratic_errors) -1 ));
+    	      % plot(x,cuadratic_errors(1,1:length(cuadratic_errors) -1 ));
     end
 	count = count+1;
 end

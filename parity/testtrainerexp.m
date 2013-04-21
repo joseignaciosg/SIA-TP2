@@ -60,6 +60,8 @@ plot(x,series1(:,4:length(series1)),x,os);
 min_diff
 max_diff
 acceptable_values
+i
+
 
 
 end
