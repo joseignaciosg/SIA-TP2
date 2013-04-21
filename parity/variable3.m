@@ -7,7 +7,7 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3(E,A,P,s,eta,differe
 
    
     global reset;
-    beta = 0.3;
+    beta = 0.75;
     
     %the first row of V are the inputs
     aux = zeros(1,length(V(1,:))-length(E)-1);
