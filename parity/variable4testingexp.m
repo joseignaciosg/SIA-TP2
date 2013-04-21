@@ -1,5 +1,5 @@
 
-function [s,o] = variable4testing(E,A,P,s,beta)
+function [s,o] = variable4testingexp(E,A,P,s,beta)
 
     max_neurons =max(P);
     m = length(P); %layers number
@@ -19,7 +19,7 @@ function [s,o] = variable4testing(E,A,P,s,beta)
     i = 1;
     while(i<m)
        membrane_potential = A(:,:,i)*V(i,:)';
-       V(i+1,:) =  [-1 tanh(membrane_potential'.* beta)];
+       V(i+1,:) =  [-1 (1./(1+exp(membrane_potential' .* (-2*beta))))];
        i=i+1;
     end
        
