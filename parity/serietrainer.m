@@ -69,7 +69,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error];
     if( dinamic_learning == 1)
-    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump);
+    	[etta, contar, alpha] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump, alpha);
 %		contar;
 %		etta;
 	end
