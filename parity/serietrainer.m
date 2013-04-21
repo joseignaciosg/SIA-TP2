@@ -37,7 +37,9 @@ count = 0;
 cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
+jump = 0;
 alpha = 0.9;
+
 
 
 while(dif > err && count < epochs && abs(dif-old) > 1e-10)
@@ -58,6 +60,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     dif = dif / (i-1); % #patterns;
     dif
     cuadratic_error = cuadratic_error/(i-1); % #patterns
+    cuadratic_error;
     %os = [os o];
     %ss = [ss s];
     %ettas = [ettas etta];
@@ -66,14 +69,14 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error];
     if( dinamic_learning == 1)
-    	[etta, contar,alpha] = update_lrn_rate( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar,alpha);
+    	[etta, contar, alpha] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump, alpha);
 %		contar;
 %		etta;
-        etta
-        alpha
+	end
+    if(count > 15)
+    jump = ifErrorsAreSimilar(errors(1,1:15));
+    jump
     end
-    
-    
 
     if (mod(count,10) == 0)
             %imprimo la evolución del error
@@ -96,6 +99,27 @@ if(count >= 50000 || (old - dif)<1e-6)
 end
 
 plot(x,errors);
+
+end
+
+function jump = ifErrorsAreSimilar(errores, jump)
+
+    i=2;
+    contador = 1;
+    valor=errores(1);
+    while(i<=length(errores)-1)
+        if( (errores(i) <= (valor + 0.001)) && (errores(i) >= (valor - 0.001)) )
+            contador = contador + 1;
+        end
+        i = i + 1;
+    end
+
+    if ( contador >= 14)
+        jump = 1;
+    end
+    if (contador < 14)
+        jump = 0;
+    end
 
 end
 

@@ -1,4 +1,5 @@
-function [eta,contador,alpha] = update_lrn_rate ( eta, error, prev_error, contador, alpha)
+function [eta, contador, alpha] = update_lrn_rate ( eta, error, prev_error, contador, jump, alpha)
+
 	%Updates the learn rate according to learn strategy
 	%1 = CONSTANT, does nothing.
 	%2 = ANNEALED, exponential decay over time
@@ -43,7 +44,8 @@ function [eta,contador,alpha] = update_lrn_rate ( eta, error, prev_error, contad
 		end
 
 	end
-	if(lrn_type == 3 && error > 1 && eta < 0.05)	
+	if(lrn_type == 3 && error > 0.025 && jump == 1 && eta < 0.05)
+		disp "SALTO"
 		%error is higher than 1, lrn rate is LOW, local minimum spotted!
 		prev_error = Inf;
 		eta = 1;

@@ -4,9 +4,9 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3(E,A,P,s,eta,differe
     max_neurons =max(P);
     m = length(P); %layers number
     V = zeros(m, max_neurons + 1); %+1 for the threshold
+
    
     global reset;
-  
     beta = 0.3;
     
     %the first row of V are the inputs

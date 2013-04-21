@@ -19,6 +19,7 @@ series = series./3.8;
 x = [];
 os=[];
 ss=[];
+error=[];
 count = 0;
 
 max_diff = 0;
@@ -33,10 +34,12 @@ while(count < 1)
 		i=i+1;
 		final_s = s * 3.8;
 		final_o = o * 3.8;
+		
 		os = [os final_o];
     	ss = [ss final_s];
     	x = [i x];
         diff = abs(final_s-final_o);
+        error = [error diff];
         %diff
         if(max_diff<diff)
             max_diff = diff;
@@ -56,6 +59,8 @@ end
 
 figure(1);
 plot(x,series1(:,4:length(series1)),x,os);
+figure(2);
+plot(x,error);
 %plot(x,os,s,ss);
 min_diff
 max_diff
