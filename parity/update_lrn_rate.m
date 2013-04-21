@@ -19,7 +19,7 @@ function [eta,contador,alpha] = update_lrn_rate ( eta, error, prev_error, contad
 	end
 	if(lrn_type == 3)
 		if(error > prev_error)
-            disp 'here -----------------------------------------------------------------';
+            disp 'error > prev_error -----------------------------------------------------------------';
             alpha=0;
             reset = 1;
 			contador = 0;
@@ -29,13 +29,13 @@ function [eta,contador,alpha] = update_lrn_rate ( eta, error, prev_error, contad
 			end
 		elseif( error < prev_error)
             %TODO check this out
-            disp 'here -----------------------------------------------------------------';
-            if(alpha < 0.8)
-               alpha = alpha + 0.001; 
-            else
 			contador = contador + 1;
 			if(contador >= lrn_consist)
 				eta = eta + lrn_sum;
+                disp 'error < prev_error -----------------------------------------------------------------';
+                if(alpha < 0.8)
+                   alpha = alpha + 0.01; 
+                else
 				if(eta > 0.6)
 					eta = 0.6;
 				end
