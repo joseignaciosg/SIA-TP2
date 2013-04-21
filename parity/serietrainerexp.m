@@ -10,9 +10,6 @@ m = max(P);
 %difference_weight = rand(m,m+1,length(P)-1); 
 %A = rand(m,m+1,length(P)-1)./2 - 0.25;
 
-%para resear a un paso anterior la matriz de pesos
-global reset
-reset = 0;
 
 difference_weight = zeros(m,m+1,length(P)-1); %Delta_Peso
 A = randommatrix(P,2,0.25);
@@ -22,7 +19,7 @@ windowsize = P(1);
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
 %Series a tomar en cuenta para entrenamiento
-series = series(1:750)./3.8;
+series = (series(1:750) + 3.8)./7.6;
 
 dif = 10;
 old = 11;
@@ -37,9 +34,6 @@ count = 0;
 cuadratic_errors = 0;
 cuadratic_error = 0;
 contar = 0;
-jump = 0;
-alpha = 0.9;
-
 
 
 while(dif > err && count < epochs && abs(dif-old) > 1e-10)
@@ -50,17 +44,16 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
 	while(i<=(length(series)-windowsize))
 		s = series(i+windowsize);
-		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated,alpha);	
+		[V,D,A,difference_weight,s,o,ret] = variable3exp(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated);	
 		i=i+1;
-		final_s = s * 3.8;
-		final_o = o * 3.8;
+		final_s = (s * 7.6) - 3.8;
+		final_o = (o * 7.6) - 3.8;
 		cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
-    dif = dif / (i-1); % #patterns;
+    dif = dif / (i-1); % # patterns;
     dif
     cuadratic_error = cuadratic_error/(i-1); % #patterns
-    cuadratic_error;
     %os = [os o];
     %ss = [ss s];
     %ettas = [ettas etta];
@@ -69,14 +62,10 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error];
     if( dinamic_learning == 1)
-    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump);
+    	[etta, contar] = update_lrn_rate ( etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar);
 %		contar;
 %		etta;
 	end
-    if(count > 15)
-    jump = ifErrorsAreSimilar(errors(1,1:15));
-    jump
-    end
 
     if (mod(count,10) == 0)
             %imprimo la evolución del error
@@ -84,9 +73,9 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     	      plot(x,errors);
     	      %figure(2)
     	      %plot(x, ettas);
-    	      % figure(3)
+    	     % figure(3)
     	      %plot(x,ss,x,os);
-    	      % plot(x,cuadratic_errors(1,1:length(cuadratic_errors) -1 ));
+    	     % plot(x,cuadratic_errors(1,1:length(cuadratic_errors) -1 ));
     end
 	count = count+1;
 end
@@ -99,27 +88,6 @@ if(count >= 50000 || (old - dif)<1e-6)
 end
 
 plot(x,errors);
-
-end
-
-function jump = ifErrorsAreSimilar(errores, jump)
-
-    i=2;
-    contador = 1;
-    valor=errores(1);
-    while(i<=length(errores)-1)
-        if( (errores(i) <= (valor + 0.001)) && (errores(i) >= (valor - 0.001)) )
-            contador = contador + 1;
-        end
-        i = i + 1;
-    end
-
-    if ( contador >= 14)
-        jump = 1;
-    end
-    if (contador < 14)
-        jump = 0;
-    end
 
 end
 
