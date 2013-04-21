@@ -29,8 +29,8 @@ function [eta,contador,alpha] = update_lrn_rate ( eta, error, prev_error, contad
 			end
 		elseif( error < prev_error)
             %TODO check this out
-            if(alpha < 0.8)
-                 alpha = alpha + 0.01; 
+            if(alpha < 0.9)
+                 alpha = alpha + 0.02; 
             else
 			contador = contador + 1;
 			if(contador >= lrn_consist)
