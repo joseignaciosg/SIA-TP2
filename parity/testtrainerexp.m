@@ -19,11 +19,13 @@ series = (series + 3.8)./7.6;
 x = [];
 os=[];
 ss=[];
+diffs = [];
 count = 0;
 
 max_diff = 0;
 min_diff = inf;
 diff = 0;
+
 acceptable_values=0;
 while(count < 1)
     i=1;
@@ -31,12 +33,13 @@ while(count < 1)
 		s = series(i+windowsize);
 		[s,o] = variable4testingexp(series(i:i+windowsize-1),A,P,s,beta);
 		i=i+1;
-		final_s = (s - 3.8).*7.6;
-		final_o = (o - 3.8).*7.6;
+		final_s = (s .*7.6) - 3.8;
+		final_o = (o .*7.6) - 3.8;
 		os = [os final_o];
     	ss = [ss final_s];
     	x = [i x];
         diff = abs(final_s-final_o);
+        diffs = [diffs diff];
         %diff
         if(max_diff<diff)
             max_diff = diff;
@@ -55,14 +58,21 @@ end
 
 
 figure(1);
-plot(x,series1(:,4:length(series1)),x,os);
-%plot(x,os,s,ss);
+%plot(x,series1(:,4:length(series1)),x,os);
+plot(x,ss,x,os);
+
+meanS = mean(ss)
+meanPredicted = mean(os)
+STDS = std(ss)
+STDPredicted = std(os)
+
+%show the error
+figure(2)
+plot(x,diffs,'r');
 min_diff
 max_diff
+meanError = mean(diffs)
 acceptable_values
 i
-
-
-
 end
 
