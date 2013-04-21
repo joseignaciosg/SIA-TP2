@@ -5,8 +5,8 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
     m = length(P); %layers number
     V = zeros(m, max_neurons + 1); %+1 for the threshold
 
-    alpha = 0.9;
-    beta = 0.3;
+    alpha = 0.1;
+    beta = 0.2;
     
     %the first row of V are the inputs
     aux = zeros(1,length(V(1,:))-length(E)-1);
@@ -52,7 +52,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
         while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
             if(momentum_activated == 1)
                 momentum_weight = difference_weight(j,k,1)*alpha;
-                delta_W  = - eta * x * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
+                delta_W  = eta * x * D(length(P)-1,j) * E(k) + momentum_weight; %segundo termino es momentum
                 difference_weight(j,k,1) = delta_W;
                 A(j, k, 1) = A(j, k, 1) + delta_W;
             else
@@ -74,7 +74,7 @@ function [V,D,A,difference_weight,s,o,ret] = variable3(E,A,P,s,eta,difference_we
             while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
                 if(momentum_activated == 1)
                     momentum_weight =  difference_weight(j,k,i)*alpha;
-                    delta_W  = - eta * x * D(length(P)-i,j) * V(i,k) + momentum_weight; %segundo termino es momentum
+                    delta_W  = eta * x * D(length(P)-i,j) * V(i,k) + momentum_weight; %segundo termino es momentum
                     difference_weight(j, k,i) = delta_W;
                     A(j, k, i) = A(j, k, i) + delta_W;
                 else
