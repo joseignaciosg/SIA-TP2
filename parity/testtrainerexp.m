@@ -59,7 +59,18 @@ end
 
 figure(1);
 %plot(x,series1(:,4:length(series1)),x,os);
-plot(x,ss,x,os);
+
+subplot(2,2,1);
+plot(x,ss,'b');
+title('serie original')
+xlabel('muestras')
+
+subplot(2,2,2)
+plot(x,os,'g');
+title('serie predecida')
+xlabel('muestras')
+
+
 
 meanS = mean(ss)
 meanPredicted = mean(os)
@@ -67,8 +78,12 @@ STDS = std(ss)
 STDPredicted = std(os)
 
 %show the error
-figure(2)
+subplot(2,2,3)
 plot(x,diffs,'r');
+title('errores en valor absoluto')
+xlabel('muestras')
+ylabel('error')
+
 min_diff
 max_diff
 meanError = mean(diffs)
