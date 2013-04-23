@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated, epochs)
+function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, dinamic_learning,momentum_activated, epochs,shuffle)
 
 
 %maximo valor de P para formar la matriz
@@ -48,7 +48,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 	cuadratic_error = 0;
 	dif = 0;
     
-    [patterns]  = shufflePatterns(series,windowsize);
+    [patterns]  = shufflePatterns(series,windowsize,shuffle);
     while(i<=size(patterns,1))
         pattern = patterns(i,1:windowsize);
         s = patterns(i,windowsize+1); ;
