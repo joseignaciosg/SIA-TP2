@@ -1,4 +1,4 @@
-function [V,D,A,s,o,count,dif] = serietrainer(series,P, etta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
+function [V,D,A,s,o,count,dif] = serietrainer(series,P, eta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
 
 
 
@@ -24,7 +24,7 @@ dif = 10;
 old = 11;
 errors = [];
 x = [];
-ettas = [];
+etas = [];
 os=[];
 ss=[];
 os_x=[0];
@@ -50,7 +50,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     while(i<=size(patterns,1))
         pattern = patterns(i,1:windowsize);
         s = patterns(i,windowsize+1); ;
-		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, etta, difference_weight, momentum_activated,alpha, beta);	
+		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, eta, difference_weight, momentum_activated,alpha, beta);	
 		
 		final_s = s * max_serie;
 		final_o = o * max_serie;
@@ -66,12 +66,12 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     cuadratic_error = cuadratic_error/(i-1); % #patterns
     errors = [dif errors];
     x = [count x];
-    ettas = [ettas etta];
+    etas = [etas eta];
    
     cuadratic_errors = [cuadratic_errors cuadratic_error];
 
-    %Modifico el etta en caso de ser necesario
-    [etta, contar, alpha] = update_lrn_rate (lrn_type, etta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump, alpha);
+    %Modifico el eta en caso de ser necesario
+    [eta, contar, alpha] = update_lrn_rate (lrn_type, eta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump, alpha);
 
 
     if(count > 15)
@@ -87,11 +87,11 @@ title('Variación del error a lo largo de las iteraciones');
 xlabel('x');
 ylabel('error value');
 figure(5);
-p2 = plot(x,ettas);
+p2 = plot(x,etas);
 set(p2,'Color','green','LineWidth',1);
-title('Variacion de Etta a lo largo de las iteraciones');
+title('Variacion de Eta a lo largo de las iteraciones');
 xlabel('x');
-ylabel('etta-value');
+ylabel('ett-value');
               figure(2);
               plot(os_x,ss,os_x,os);
               title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
