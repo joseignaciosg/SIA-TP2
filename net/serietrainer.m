@@ -27,6 +27,7 @@ x = [];
 ettas = [];
 os=[];
 ss=[];
+os_x=[0];
 count = 0;
 
 %Almacenamiento de Errores cuadraticos para realizar el dinamic learning rate.
@@ -42,16 +43,22 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 	old = dif;
 	cuadratic_error = 0;
 	dif = 0;
-    
+    os = [];
+    ss = [];
+    os_x = [];
     [patterns]  = shufflePatterns(series,windowsize,shuffle);
     while(i<=size(patterns,1))
         pattern = patterns(i,1:windowsize);
         s = patterns(i,windowsize+1); ;
 		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, etta, difference_weight, momentum_activated,alpha, beta);	
-		i=i+1;
+		
 		final_s = s * max_serie;
 		final_o = o * max_serie;
-		cuadratic_error = cuadratic_error + (s-o)^2;
+		os = [final_o os];
+        ss = [final_s ss];
+        os_x = [i os_x];
+        i=i+1;
+        cuadratic_error = cuadratic_error + (s-o)^2;
 		dif = dif + (s-o)^2;
     end
     dif = dif / (i-1); % #patterns;
@@ -60,6 +67,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     errors = [dif errors];
     x = [count x];
     ettas = [ettas etta];
+   
     cuadratic_errors = [cuadratic_errors cuadratic_error];
 
     %Modifico el etta en caso de ser necesario
@@ -72,8 +80,23 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
     if (mod(count,10) == 0)
             %imprimo la evolución del error
-     	      figure(1);
-    	      plot(x,errors);
+     	     figure(1);
+p1 = plot(x,errors);
+set(p1,'Color','red','LineWidth',1);
+title('Variación del error a lo largo de las iteraciones');
+xlabel('x');
+ylabel('error value');
+figure(5);
+p2 = plot(x,ettas);
+set(p2,'Color','green','LineWidth',1);
+title('Variacion de Etta a lo largo de las iteraciones');
+xlabel('x');
+ylabel('etta-value');
+              figure(2);
+              plot(os_x,ss,os_x,os);
+              title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
+              xlabel('x');
+              ylabel('Salidas');
     end
 	count = count+1;
 end
@@ -84,11 +107,6 @@ if(count >= 50000 || (old - dif)<1e-6)
 	disp('old');disp(old);
 	disp('dif');disp(dif);
 end
-
-figure(4);
-plot(x,errors);
-figure(5);
-plot(x,ettas);
 
 end
 
