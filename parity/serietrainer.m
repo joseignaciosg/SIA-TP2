@@ -47,10 +47,12 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 	old = dif;
 	cuadratic_error = 0;
 	dif = 0;
-
-	while(i<=(length(series)-windowsize))
-		s = series(i+windowsize);
-		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(series(i:i+windowsize-1),A,P,s, etta, difference_weight, momentum_activated,alpha);	
+    
+    [patterns]  = shufflePatterns(series,windowsize);
+    while(i<=size(patterns,1))
+        pattern = patterns(i,1:windowsize);
+        s = patterns(i,windowsize+1); ;
+		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, etta, difference_weight, momentum_activated,alpha);	
 		i=i+1;
 		final_s = s * 3.8;
 		final_o = o * 3.8;
