@@ -20,12 +20,15 @@ series = series./3.8;
 x = [];
 os=[];
 ss=[];
+diffs = [];
+diffs2 = [];
 error=[];
 count = 0;
 
 max_diff = 0;
 min_diff = inf;
 diff = 0;
+diff2 = 0;
 acceptable_values=0;
 while(count < 1)
     i=1;
@@ -40,8 +43,10 @@ while(count < 1)
     	ss = [ss final_s];
     	x = [i x];
         diff = abs(final_s-final_o);
+        diff2 = final_s-final_o;
         error = [error diff];
-        %diff
+        diffs = [diffs diff];
+        diffs2 = [diffs2 diff2];
         if(max_diff<diff)
             max_diff = diff;
         end
@@ -59,14 +64,44 @@ while(count < 1)
 end
 
 
+
 figure(1);
-plot(x,series1(:,4:length(series1)),x,os);
-figure(2);
-plot(x,error);
-%plot(x,os,s,ss);
+
+subplot(2,2,1);
+plot(x,ss,'b');
+title('serie original')
+xlabel('muestras')
+
+subplot(2,2,2)
+plot(x,os,'g');
+title('serie predecida')
+xlabel('muestras')
+
+
+
+meanS = mean(ss)
+meanPredicted = mean(os)
+STDS = std(ss)
+STDPredicted = std(os)
+
+%show the error
+subplot(2,2,3)
+plot(x,diffs,'r');
+title('errores en valor absoluto')
+xlabel('muestras')
+ylabel('error')
+
+subplot(2,2,4)
+hist(diffs2,10);
+title('hostograma de errores')
+xlabel('error')
+ylabel('ocurrencias')
+
 min_diff
 max_diff
+meanError = mean(diffs)
 acceptable_values
+i
 
 
 end

@@ -44,7 +44,6 @@ while(count < 1)
         diff2 = final_s-final_o;
         diffs = [diffs diff];
         diffs2 = [diffs2 diff2];
-        %diff
         if(max_diff<diff)
             max_diff = diff;
         end
@@ -62,7 +61,6 @@ end
 
 
 figure(1);
-%plot(x,series1(:,4:length(series1)),x,os);
 
 subplot(2,2,1);
 plot(x,ss,'b');
