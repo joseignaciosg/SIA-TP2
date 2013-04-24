@@ -4,6 +4,7 @@
 
 function [count] = testtrainer(series,A,P,err,beta)
 
+
 %maximo valor de P para formar la matriz
 m = max(P);
 
