@@ -50,8 +50,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     while(i<=size(patterns,1))
         pattern = patterns(i,1:windowsize);
         s = patterns(i,windowsize+1); ;
-		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, eta, difference_weight, momentum_activated,alpha, beta);	
-		
+		[V,D,A,difference_weight,s,o,ret,alpha] = variable3(pattern,A,P,s, eta, difference_weight, momentum_activated,alpha, beta);			
 		final_s = s * max_serie;
 		final_o = o * max_serie;
 		os = [final_o os];
@@ -62,7 +61,7 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 		dif = dif + (s-o)^2;
     end
     dif = dif / (i-1); % #patterns;
-    %dif
+    dif
     cuadratic_error = cuadratic_error/(i-1); % #patterns
     errors = [dif errors];
     x = [count x];
