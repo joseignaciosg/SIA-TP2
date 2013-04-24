@@ -30,6 +30,7 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(E,A,P,s,eta,diff
     o = V(m,2);
     
     
+    
     %computes deltas
     D = zeros(m-1,max_neurons);
     D(1,1) = (s-o);

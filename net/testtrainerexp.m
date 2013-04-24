@@ -13,7 +13,8 @@ index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 %Series a tomar en cuenta para entrenamiento
 
 series1 = series;
-series = (series + 3.8)./7.6;
+maxserie = series;
+series = (series + maxserie)./(maxserie*2);
 
 %Variables
 x = [];
@@ -35,8 +36,9 @@ while(count < 1)
 		s = series(i+windowsize);
 		[s,o] = variable4testingexp(series(i:i+windowsize-1),A,P,s,beta);
 		i=i+1;
-		final_s = (s *7.6) - 3.8;
-		final_o = (o *7.6) - 3.8;
+        o
+		final_s = (s * (2*maxserie)) - maxserie;
+		final_o = (o * (2*maxserie)) - maxserie;
 		os = [os final_o];
     	ss = [ss final_s];
     	x = [i x];

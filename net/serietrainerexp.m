@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = serietrainer(series,P, eta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
+function [V,D,A,s,o,count,dif] = serietrainerexp(series,P, eta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
 
 
 %maximo valor de P para formar la matriz
@@ -23,9 +23,9 @@ windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
-
+maxserie  = max(series);
 %Series a tomar en cuenta para entrenamiento
-series = (series(1:750) + 3.8)./7.6;
+series = (series(1:750) + maxserie)./(maxserie*2);
 
 dif = 10;
 old = 11;
@@ -60,8 +60,8 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 		[V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(pattern,A,P,s, eta, difference_weight, momentum_activated,alpha,beta);
 
 		i=i+1;
-		final_s = (s * max_serie_doble) - max_serie;
-		final_o = (o * max_serie_doble) - max_serie;
+		final_s = (s * (2*maxserie)) - maxserie;
+		final_o = (o * (2*maxserie)) - maxserie;
 		      os = [final_o os];
         ss = [final_s ss];
         os_x = [i os_x];

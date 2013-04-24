@@ -96,7 +96,7 @@ disp( sprintf( '\nError: %d\n', error ) );
 	if(function_type == 1)
 		[V,D,A,s,o,count,dif] = serietrainer(series,net_configuration, lrn_rate, error, lrn_type, momentum_activated, epochs,shuffle, alpha, beta);
 	else
-		[V,D,A,s,o,count,dif] = serietrainer(series,net_configuration, lrn_rate, error, lrn_type,momentum_activated, epochs, shuffle, alpha, beta);
+		[V,D,A,s,o,count,dif] = serietrainerexp(series,net_configuration, lrn_rate, error, lrn_type,momentum_activated, epochs, shuffle, alpha, beta);
 	end
 
 end
