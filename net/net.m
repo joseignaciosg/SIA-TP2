@@ -21,7 +21,7 @@ function [V,D,A,s,o,count,dif] = net (series, net_configuration, function_type, 
 	%
 
 	if (strcmp(function_type, 'help'))
-		disp('\nInvocar como net (NET_CONFIGURATION, FUNCTION_TYPE, EPOCHS, ERROR, LRN_RATE, LRN_TYPE, ALPHA, MOMENTUM_ACTIVATED, BETA, SHUFFLE)\n');
+		disp('\nInvocar como net (SERIE, NET_CONFIGURATION, FUNCTION_TYPE, EPOCHS, ERROR, LRN_RATE, LRN_TYPE, ALPHA, MOMENTUM_ACTIVATED, BETA, SHUFFLE)\n');
 		disp('\nNET_CONFIGURATION = [3 5 2 1] corresponderá a "3" son los parametros de entrada, "5" las neuranas en la primer capa oculta, "2" neuronas en la segunda capa oculta y "1" de salida. \n');
 		disp('\nFUNCTION_TYPE = [tanh,exponencial]\n');
 		disp('\nERROR = Error buscado, valor abitrario determinado por el usuario\n');

@@ -92,11 +92,11 @@ set(p2,'Color','green','LineWidth',1);
 title('Variacion de Eta a lo largo de las iteraciones');
 xlabel('x');
 ylabel('ett-value');
-              figure(2);
-              plot(os_x,ss,os_x,os);
-              title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
-              xlabel('x');
-              ylabel('Salidas');
+              %figure(2);
+              %plot(os_x,ss,os_x,os);
+              %title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
+              %xlabel('x');
+              %ylabel('Salidas');
     end
 	count = count+1;
 end

@@ -42,9 +42,9 @@ function [eta, contador, alpha] = update_lrn_rate (lrn_type, eta, error, prev_er
 
 	%Si el eta es bajo y hace mucho tiempo que se esta en el mismo error entonces jump es igual a 1 y pega el salto.
 
-	if(lrn_type == 3 && jump == 1 && eta < 0.03)
+	if(lrn_type == 3 && error > 0.05 && jump == 1 && eta < 0.03)
 		prev_error = Inf;
-		eta = 1;
+		eta = 0.8;
 	else
 		prev_error = error;
 	end
