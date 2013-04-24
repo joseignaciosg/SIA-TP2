@@ -15,7 +15,7 @@ index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 %Series a tomar en cuenta para entrenamiento
 
 series1 = series;
-maxserie = max(series);
+maxserie = max(abs(series));
 series = series./maxserie;
 
 %Variables
@@ -24,6 +24,7 @@ os=[];
 ss=[];
 diffs = [];
 diffs2 = [];
+diffs_square = [];
 error=[];
 count = 0;
 
@@ -31,6 +32,7 @@ max_diff = 0;
 min_diff = inf;
 diff = 0;
 diff2 = 0;
+cuadratic_error = 0;
 acceptable_values=0;
 while(count < 1)
     i=1;
@@ -46,6 +48,7 @@ while(count < 1)
     	x = [i x];
         diff = abs(final_s-final_o);
         diff2 = final_s-final_o;
+        cuadratic_error = cuadratic_error + (s-o)^2;
         error = [error diff];
         diffs = [diffs diff];
         diffs2 = [diffs2 diff2];
@@ -55,13 +58,14 @@ while(count < 1)
         if(min_diff>diff)
             min_diff = diff;
         end
-
         if (diff <= err)
             acceptable_values = acceptable_values +1;
         end
-        
-        
+           
     end
+    cuadratic_error = cuadratic_error / (i-1);
+    cuadratic_error
+    diffs_square = [diffs_square cuadratic_error];
 	count = count+1;
 end
 
