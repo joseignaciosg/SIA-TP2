@@ -80,9 +80,8 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
     x = [count x];
     cuadratic_errors = [cuadratic_errors cuadratic_error];
     [eta, contar, alpha] = update_lrn_rate (lrn_type, eta, cuadratic_error, cuadratic_errors(length(cuadratic_errors)-1), contar, jump, alpha);
-    if(count > 15)
-        jump = ifErrorsAreSimilar(errors(1,1:15));
-        jump
+    if(count > 50)
+        jump = ifErrorsAreSimilar(errors(1,1:50));
     end
 
     if (mod(count,10) == 0)

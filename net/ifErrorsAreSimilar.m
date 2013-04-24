@@ -10,10 +10,10 @@ function jump = ifErrorsAreSimilar(errores, jump)
         i = i + 1;
     end
 
-    if ( contador >= 14)
+    if ( contador >= 49)
         jump = 1;
     end
-    if (contador < 14)
+    if (contador < 49)
         jump = 0;
     end
 
