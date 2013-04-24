@@ -49,7 +49,9 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(E,A,P,s,eta,diff
     while(j <= P(2)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
         k = 1;
         x= A(j,1:P(1)+1,1) * E(1:P(1)+1)';
-        y = 2* beta* ( 1/(1+exp( -2*beta*(1-(1/(1+exp((-2*beta*x))))) ) ) );
+        y1 =1-(1/(1+exp((-2*beta*x))));
+        y = 2* beta* ( 1/(1+exp(-2*beta*y1)) );
+        
         while(k <= P(1) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
             if(momentum_activated == 1)
                 if( reset == 1)
@@ -76,7 +78,8 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(E,A,P,s,eta,diff
         while(j <= P(i + 1)) %cantidad de neuronas en la capa siguiente. determina la cantidad de filas en mi matriz.
             k = 1;
             x = A(j,1:P(i)+1,i) * V(i,1:P(i)+1)';
-            y = 2* beta* ( 1/(1+exp( -2*beta*(1-(1/(1+exp((-2*beta*x))))) ) ) );
+            y1 =1-(1/(1+exp((-2*beta*x))));
+            y = 2* beta* ( 1/(1+exp(-2*beta*y1)) );
             while(k <= P(i) + 1) %cantidad de neuronas en mi capa + 1. determina la cantidad de columnas en mi matriz.
                 if(momentum_activated == 1)
                     if( reset == 1)
