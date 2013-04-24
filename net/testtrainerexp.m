@@ -37,6 +37,7 @@ while(count < 1)
 		i=i+1;
 		final_s = (s .*7.6) - 3.8;
 		final_o = (o .*7.6) - 3.8;
+
 		os = [os final_o];
     	ss = [ss final_s];
     	x = [i x];
