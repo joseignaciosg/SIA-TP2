@@ -23,11 +23,9 @@ windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
-max_serie = max(series);
-max_serie_doble = max(series)*2;
 
 %Series a tomar en cuenta para entrenamiento
-series = (series(1:750) + max_serie)./max_serie_doble;
+series = (series(1:750) + 3.8)./7.6;
 
 dif = 10;
 old = 11;

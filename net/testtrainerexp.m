@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [count] = testtrainer(series,A,P,error,beta)
+function [count] = testtrainer(series,A,P,err,beta)
 
 %maximo valor de P para formar la matriz
 m = max(P);
@@ -35,8 +35,8 @@ while(count < 1)
 		s = series(i+windowsize);
 		[s,o] = variable4testingexp(series(i:i+windowsize-1),A,P,s,beta);
 		i=i+1;
-		final_s = (s .*7.6) - 3.8;
-		final_o = (o .*7.6) - 3.8;
+		final_s = (s *7.6) - 3.8;
+		final_o = (o *7.6) - 3.8;
 
 		os = [os final_o];
     	ss = [ss final_s];
@@ -51,7 +51,7 @@ while(count < 1)
         if(min_diff>diff)
             min_diff = diff;
         end
-        if (diff <= error)
+        if (diff <= err)
             acceptable_values = acceptable_values +1;
         end
         

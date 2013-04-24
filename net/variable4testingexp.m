@@ -27,5 +27,7 @@ function [s,o] = variable4testingexp(E,A,P,s,beta)
 
     %final output
     o = V(m,2);
+    
+    o
 
 end
