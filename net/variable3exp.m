@@ -62,7 +62,7 @@ function [V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(E,A,P,s,eta,diff
                     A(j, k, 1) = A(j, k, 1) + delta_W;
                 end
             else
-                A(j, k, 1) = A(j, k, 1) + eta * beta * (1-(tanh(beta *  A(j,1:P(1)+1,1) * E(1:P(1)+1)' ))^2) * D(length(P)-1,j) * E(k);
+                A(j, k, 1) = A(j, k, 1) + eta * y * D(length(P)-1,j) * E(k);
             end
             k = k+1;
         end
