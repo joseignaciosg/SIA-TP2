@@ -39,6 +39,7 @@ while(count < 1)
         o
 		final_s = (s * (2*maxserie)) - maxserie;
 		final_o = (o * (2*maxserie)) - maxserie;
+
 		os = [os final_o];
     	ss = [ss final_s];
     	x = [i x];
