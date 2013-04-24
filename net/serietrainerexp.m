@@ -1,7 +1,7 @@
 %pueba si la red neuronal aprendió a determinar la paridad de 2 a 5 
 %entradas
 
-function [V,D,A,s,o,count,dif] = serietrainer(series,P, eta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
+function [V,D,A,s,o,count,dif] = serietrainerexp(series,P, eta, err, lrn_type,momentum_activated, epochs,shuffle, alpha, beta)
 
 
 %maximo valor de P para formar la matriz
@@ -23,9 +23,9 @@ windowsize = P(1);
 
 index = P(1) -1; %resto -1 para que de bien el index en el vector testing
 
-
 %Series a tomar en cuenta para entrenamiento
-series = (series(1:750) + 3.8)./7.6;
+maxserie  = max(series);
+series = (series(1:750) + maxserie)./(maxserie*2);
 
 dif = 10;
 old = 11;
@@ -50,19 +50,16 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 	dif = 0;
     os = [];
     ss = [];
-    os_x = [];
-
-    
+    os_x = [];    
     [patterns]  = shufflePatterns(series,windowsize,shuffle);
     while(i<=size(patterns,1))
         pattern = patterns(i,1:windowsize);
-        s = patterns(i,windowsize+1); ;
+        s = patterns(i,windowsize+1);
 		[V,D,A,difference_weight,s,o,ret,alpha] = variable3exp(pattern,A,P,s, eta, difference_weight, momentum_activated,alpha,beta);
-
 		i=i+1;
-		final_s = (s * max_serie_doble) - max_serie;
-		final_o = (o * max_serie_doble) - max_serie;
-		      os = [final_o os];
+		final_s = (s * (2*maxserie)) - maxserie;
+		final_o = (o * (2*maxserie)) - maxserie;
+		os = [final_o os];
         ss = [final_s ss];
         os_x = [i os_x];
         cuadratic_error = cuadratic_error + (s-o)^2;
@@ -84,23 +81,23 @@ while(dif > err && count < epochs && abs(dif-old) > 1e-10)
 
     if (mod(count,10) == 0)
              %imprimo la evolución del error
-             figure(1);
-p1 = plot(x,errors);
-set(p1,'Color','red','LineWidth',1);
-title('Variación del error a lo largo de las iteraciones');
-xlabel('x');
-ylabel('error value');
-figure(5);
-p2 = plot(x,etas);
-set(p2,'Color','green','LineWidth',1);
-title('Variacion de Eta a lo largo de las iteraciones');
-xlabel('x');
-ylabel('eta-value');
-              figure(2);
-              plot(os_x,ss,os_x,os);
-              title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
-              xlabel('x');
-              ylabel('Salidas');
+            figure(1);
+            p1 = plot(x,errors);
+            set(p1,'Color','red','LineWidth',1);
+            title('Variación del error a lo largo de las iteraciones');
+            xlabel('x');
+            ylabel('error value');
+            figure(5);
+            p2 = plot(x,etas);
+            set(p2,'Color','green','LineWidth',1);
+            title('Variacion de Eta a lo largo de las iteraciones');
+            xlabel('x');
+            ylabel('eta-value');
+            figure(2);
+            plot(os_x,ss,os_x,os);
+            title('Variacion de la salida esperada y obtenida a lo largo de las iteraciones');
+            xlabel('x');
+            ylabel('Salidas');
     end
 	count = count+1;
 end
